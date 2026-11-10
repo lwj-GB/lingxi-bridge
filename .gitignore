@@ -1,0 +1,11 @@
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+*.sqlite*
+*.db
+.env*
+dist/
+apps/desktop/.build/
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/binaries/

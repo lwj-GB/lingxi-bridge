@@ -1,0 +1,15 @@
+.report-charts { margin: 22px 0; border-top: 1px solid var(--line); padding-top: 15px; }
+.report-charts > header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.report-charts h3 { font-size: 15px; margin: 0 0 12px; font-weight: 500; }
+.report-charts > header span { font-size: 11px; color: var(--muted); }
+.report-charts-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.report-charts figure { margin: 0; min-width: 0; }
+.report-charts figcaption { color: var(--ink); font-size: 12px; margin: 4px 0 8px; }
+.report-charts img { display: block; width: 100%; height: auto; background: white; }
+.report-charts details { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.report-charts summary { cursor: pointer; color: var(--clay-dark); }
+.report-charts details p { font-size: 12px; }
+.report-charts details nav { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.report-charts details a { color: var(--clay-dark); }
+.report-charts [role="alert"] { color: var(--error-ink, #b13b3b); font-size: 12px; }
+@media (max-width: 1050px) { .report-charts-grid { grid-template-columns: 1fr; } }

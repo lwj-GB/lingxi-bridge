@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/0.1/analysis-output.schema.json",
+  "title": "Lingxi Bridge V0.1 structured analysis output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "material_scope",
+    "claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "material_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      },
+      "minItems": 1
+    },
+    "report_markdown": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30000,
+      "description": "完整的综合报告正文，使用Markdown短段落；不逐条罗列来源或问答。"
+    }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_type",
+        "text",
+        "evidence_ids"
+      ],
+      "properties": {
+        "claim_type": {
+          "enum": [
+            "observation",
+            "hypothesis",
+            "unknown",
+            "suggestion"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "uncertainty": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "claim_type": {
+                "const": "hypothesis"
+              }
+            },
+            "required": [
+              "claim_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "uncertainty",
+              "alternatives"
+            ],
+            "properties": {
+              "alternatives": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

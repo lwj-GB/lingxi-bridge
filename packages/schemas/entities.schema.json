@@ -1,0 +1,499 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/0.1/entities.schema.json",
+  "title": "Lingxi Bridge V0.1 workspace entities",
+  "oneOf": [
+    {"$ref": "#/$defs/person"},
+    {"$ref": "#/$defs/relation"},
+    {"$ref": "#/$defs/event"},
+    {"$ref": "#/$defs/source"},
+    {"$ref": "#/$defs/screenshot_transcript"},
+    {"$ref": "#/$defs/evidence"},
+    {"$ref": "#/$defs/report_topic"},
+    {"$ref": "#/$defs/report_snapshot"}
+  ],
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "uuid_list": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/uuid"},
+      "uniqueItems": true
+    },
+    "base_properties": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "display_name",
+        "relation_to_user"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "person"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 120},
+        "relation_to_user": {"type": "string", "minLength": 1, "maxLength": 120},
+        "profile_sections": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/profile_entry"}
+        }
+      }
+    },
+    "profile_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "section",
+        "label",
+        "value",
+        "origin",
+        "confirmation_status",
+        "evidence_ids"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/uuid"},
+        "section": {
+          "enum": [
+            "basic_info",
+            "appearance_style",
+            "preferences",
+            "habits",
+            "important_experiences",
+            "works_expression",
+            "social_content",
+            "interactions",
+            "user_observations"
+          ]
+        },
+        "label": {"type": "string", "minLength": 1, "maxLength": 120},
+        "value": {"type": "string", "minLength": 1, "maxLength": 4000},
+        "origin": {"enum": ["user", "ai"]},
+        "confirmation_status": {"enum": ["candidate", "confirmed", "rejected"]},
+        "evidence_ids": {"$ref": "#/$defs/uuid_list"}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "from_person_id",
+        "to_person_id",
+        "relation_kind"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "relation"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "from_person_id": {"$ref": "#/$defs/uuid"},
+        "to_person_id": {"$ref": "#/$defs/uuid"},
+        "relation_kind": {"type": "string", "minLength": 1, "maxLength": 120},
+        "evidence_ids": {"$ref": "#/$defs/uuid_list"}
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "title",
+        "occurred_at",
+        "person_ids",
+        "source_ids"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "event"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 200},
+        "occurred_at": {"type": "string", "format": "date-time"},
+        "location": {"type": "string", "maxLength": 400},
+        "summary": {"type": "string", "maxLength": 20000},
+        "analysis": {"$ref": "#/$defs/event_analysis"},
+        "person_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        },
+        "source_ids": {"$ref": "#/$defs/uuid_list"}
+      }
+    },
+    "event_analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "generated_at", "engine", "event_revision", "source_ids", "source_hashes", "source_text_hashes", "summary", "nodes"],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "engine": {"enum": ["api", "claude", "codex"]},
+        "event_revision": {"type": "integer", "minimum": 1},
+        "source_ids": {"$ref": "#/$defs/uuid_list", "minItems": 1, "maxItems": 30},
+        "source_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+        "source_text_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 5000},
+        "nodes": {
+          "type": "array", "maxItems": 40,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "label", "source_id", "quote", "quote_start", "quote_end", "status"],
+            "properties": {
+              "id": {"$ref": "#/$defs/uuid"},
+              "label": {"type": "string", "minLength": 1, "maxLength": 100},
+              "source_id": {"$ref": "#/$defs/uuid"},
+              "quote": {"type": "string", "minLength": 1, "maxLength": 2000},
+              "quote_start": {"type": "integer", "minimum": 0},
+              "quote_end": {"type": "integer", "minimum": 1},
+              "timestamp_ms": {"type": "integer", "minimum": 0},
+              "status": {"const": "candidate"}
+            }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "title",
+        "source_kind",
+        "original_path",
+        "sha256",
+        "person_ids",
+        "event_ids"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "source"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 200},
+        "source_kind": {
+          "enum": [
+            "text",
+            "markdown",
+            "file",
+            "chat_export",
+            "user_observation",
+            "screenshot"
+          ]
+        },
+        "original_path": {
+          "type": "string",
+          "pattern": "^attachments/[0-9a-fA-F-]{36}/[^/]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "person_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        },
+        "event_ids": {"$ref": "#/$defs/uuid_list"},
+        "mime_type": {"enum": ["image/png", "image/jpeg", "image/webp"]},
+        "byte_size": {"type": "integer", "minimum": 1, "maximum": 15728640},
+        "batch_id": {"$ref": "#/$defs/uuid"},
+        "sequence_index": {"type": "integer", "minimum": 0, "maximum": 19},
+        "processing_status": {"enum": ["pending_confirmation", "confirmed"]},
+        "transcript_id": {"$ref": "#/$defs/uuid"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"source_kind": {"const": "screenshot"}},
+            "required": ["source_kind"]
+          },
+          "then": {
+            "required": [
+              "mime_type",
+              "byte_size",
+              "batch_id",
+              "sequence_index",
+              "processing_status"
+            ]
+          }
+        }
+      ]
+    },
+    "screenshot_transcript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "source_id",
+        "status",
+        "segments",
+        "person_ids",
+        "event_ids"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "screenshot_transcript"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"const": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "source_id": {"$ref": "#/$defs/uuid"},
+        "status": {"const": "confirmed"},
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["segment_id", "order", "speaker", "text", "uncertainty"],
+            "properties": {
+              "segment_id": {"$ref": "#/$defs/uuid"},
+              "order": {"type": "integer", "minimum": 0},
+              "speaker": {"enum": ["me", "other", "unknown"]},
+              "text": {"type": "string", "minLength": 1, "maxLength": 4000},
+              "uncertainty": {"enum": ["low", "medium", "high"]}
+            }
+          }
+        },
+        "person_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        },
+        "event_ids": {"$ref": "#/$defs/uuid_list"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "source_id",
+        "quote",
+        "locator",
+        "evidence_kind",
+        "reliability",
+        "person_ids",
+        "event_ids"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "evidence"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "source_id": {"$ref": "#/$defs/uuid"},
+        "quote": {"type": "string", "minLength": 1},
+        "locator": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "start", "end"],
+              "properties": {
+                "kind": {"const": "text_quote"},
+                "start": {"type": "integer", "minimum": 0},
+                "end": {"type": "integer", "minimum": 1}
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "transcript_id",
+                "segment_id",
+                "start",
+                "end"
+              ],
+              "properties": {
+                "kind": {"const": "screenshot_segment"},
+                "transcript_id": {"$ref": "#/$defs/uuid"},
+                "segment_id": {"$ref": "#/$defs/uuid"},
+                "start": {"type": "integer", "minimum": 0},
+                "end": {"type": "integer", "minimum": 1}
+              }
+            }
+          ]
+        },
+        "evidence_kind": {
+          "enum": ["direct_quote", "user_observation", "user_statement", "third_party_statement"]
+        },
+        "reliability": {"enum": ["low", "medium", "high"]},
+        "person_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        },
+        "event_ids": {"$ref": "#/$defs/uuid_list"}
+      }
+    },
+    "report_topic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "title",
+        "template_family",
+        "person_ids",
+        "current_snapshot_id",
+        "snapshot_count",
+        "status"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "report_topic"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"type": "integer", "minimum": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 200},
+        "template_family": {
+          "enum": ["person_long_term", "relation", "recent_change", "special"]
+        },
+        "template_variant": {
+          "enum": [
+            "overview",
+            "preferences_habits",
+            "experiences_values",
+            "romantic",
+            "family_parent",
+            "mentor_collaboration",
+            "friend_social",
+            "other",
+            "recent_state",
+            "gift_advice",
+            "communication_prep",
+            "conflict_review",
+            "behavior_interpretation",
+            "custom"
+          ]
+        },
+        "analysis_question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "person_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        },
+        "relation_id": {"$ref": "#/$defs/uuid"},
+        "current_snapshot_id": {"$ref": "#/$defs/uuid"},
+        "snapshot_count": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["draft", "confirmed"]}
+      }
+    },
+    "report_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "entity_type",
+        "id",
+        "revision",
+        "created_at",
+        "updated_at",
+        "topic_id",
+        "version",
+        "generation_kind",
+        "evidence_ids"
+      ],
+      "properties": {
+        "schema_version": {"const": "0.1"},
+        "entity_type": {"const": "report_snapshot"},
+        "id": {"$ref": "#/$defs/uuid"},
+        "revision": {"const": 1},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "topic_id": {"$ref": "#/$defs/uuid"},
+        "version": {"type": "integer", "minimum": 1},
+        "generation_kind": {"enum": ["safe_placeholder", "claude", "codex", "api", "manual"]},
+        "charts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["manifest_path", "assets", "frequency_mode", "source_ids", "missing_information"],
+          "properties": {
+            "manifest_path": {"type": "string", "pattern": "^attachments/reports/[0-9a-f-]{36}/manifest\\.json$"},
+            "frequency_mode": {"enum": ["daily", "speaker_totals"]},
+            "source_ids": {"$ref": "#/$defs/uuid_list", "minItems": 1},
+            "missing_information": {"type": "array", "items": {"type": "string"}},
+            "assets": {
+              "type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["name", "title", "sha256", "mime_type", "kind"],
+                "properties": {
+                  "name": {"enum": ["frequency.png", "terms.png", "frequency.csv", "terms.csv", "report_charts.R", "manifest.json"]},
+                  "title": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                  "mime_type": {"enum": ["image/png", "text/csv", "text/plain", "application/json"]},
+                  "kind": {"enum": ["image", "data", "script", "manifest"]}
+                }
+              }
+            }
+          }
+        },
+        "evidence_ids": {
+          "$ref": "#/$defs/uuid_list",
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

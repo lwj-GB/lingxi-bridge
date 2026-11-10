@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/0.2/live-session.schema.json",
+  "title": "Lingxi Bridge realtime session events",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/start"
+    },
+    {
+      "$ref": "#/$defs/transcriptInput"
+    },
+    {
+      "$ref": "#/$defs/speakerSelection"
+    },
+    {
+      "$ref": "#/$defs/analysisControl"
+    },
+    {
+      "$ref": "#/$defs/stop"
+    },
+    {
+      "$ref": "#/$defs/started"
+    },
+    {
+      "$ref": "#/$defs/transcriptDelta"
+    },
+    {
+      "$ref": "#/$defs/analysisSnapshot"
+    },
+    {
+      "$ref": "#/$defs/insightSnapshot"
+    },
+    {
+      "$ref": "#/$defs/status"
+    },
+    {
+      "$ref": "#/$defs/error"
+    },
+    {
+      "$ref": "#/$defs/ended"
+    }
+  ],
+  "$defs": {
+    "recognizer": {
+      "enum": [
+        "browser_stream",
+        "doubao",
+        "demo"
+      ]
+    },
+    "speakerRole": {
+      "enum": [
+        "me",
+        "other",
+        "unknown"
+      ]
+    },
+    "analysisMode": {
+      "enum": [
+        "observe",
+        "goal"
+      ]
+    },
+    "start": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "recognizer",
+        "consent",
+        "default_speaker"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "analysis_mode": {
+                "const": "goal"
+              }
+            },
+            "required": [
+              "analysis_mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "goal"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "type": {
+          "const": "start"
+        },
+        "recognizer": {
+          "$ref": "#/$defs/recognizer"
+        },
+        "consent": {
+          "const": true
+        },
+        "default_speaker": {
+          "$ref": "#/$defs/speakerRole"
+        },
+        "analysis_mode": {
+          "$ref": "#/$defs/analysisMode"
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "analysis_api": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope_confirmed"
+          ],
+          "properties": {
+            "scope_confirmed": {
+              "const": true
+            },
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "transcriptInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "sequence",
+        "text",
+        "speaker",
+        "is_final",
+        "start_ms",
+        "end_ms"
+      ],
+      "properties": {
+        "type": {
+          "const": "transcript"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "同一会话内按事件严格递增；interim 到 final 修订也必须使用新序号。重复或回退事件由服务端幂等忽略。"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "speaker": {
+          "$ref": "#/$defs/speakerRole"
+        },
+        "is_final": {
+          "type": "boolean"
+        },
+        "start_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "speakerSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "speaker"
+      ],
+      "properties": {
+        "type": {
+          "const": "speaker_selection"
+        },
+        "speaker": {
+          "$ref": "#/$defs/speakerRole"
+        }
+      }
+    },
+    "stop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "stop"
+        }
+      }
+    },
+    "started": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "session_id",
+        "recognizer",
+        "data_destination",
+        "audio_saved"
+      ],
+      "properties": {
+        "type": {
+          "const": "started"
+        },
+        "session_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "recognizer": {
+          "$ref": "#/$defs/recognizer"
+        },
+        "data_destination": {
+          "enum": [
+            "local_only",
+            "browser_provider",
+            "volcengine_doubao"
+          ]
+        },
+        "audio_saved": {
+          "const": false
+        }
+      }
+    },
+    "transcriptDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "sequence",
+        "text",
+        "speaker",
+        "committed_text",
+        "interim_text",
+        "is_final",
+        "start_ms",
+        "end_ms"
+      ],
+      "properties": {
+        "type": {
+          "const": "transcript_delta"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "speaker": {
+          "$ref": "#/$defs/speakerRole"
+        },
+        "committed_text": {
+          "type": "string"
+        },
+        "interim_text": {
+          "type": "string"
+        },
+        "is_final": {
+          "type": "boolean"
+        },
+        "start_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "analysisCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "observed_at_ms",
+        "evidence",
+        "hypothesis",
+        "alternative",
+        "question",
+        "uncertainty"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "question",
+            "uncertainty",
+            "contrast",
+            "request"
+          ]
+        },
+        "observed_at_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hypothesis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternative": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uncertainty": {
+          "const": "high"
+        }
+      }
+    },
+    "analysisSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "cards"
+      ],
+      "properties": {
+        "type": {
+          "const": "analysis_snapshot"
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/analysisCard"
+          },
+          "maxItems": 4
+        }
+      }
+    },
+    "insightSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "observed_at_ms",
+        "is_updating",
+        "intent",
+        "reply_points",
+        "cautions",
+        "summary_points",
+        "topics"
+      ],
+      "properties": {
+        "type": {
+          "const": "insight_snapshot"
+        },
+        "observed_at_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "is_updating": {
+          "type": "boolean"
+        },
+        "intent": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "reply_points": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "maxItems": 6
+        },
+        "cautions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "maxItems": 6
+        },
+        "summary_points": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "maxItems": 8
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "maxItems": 6
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "phase",
+        "message"
+      ],
+      "properties": {
+        "type": {
+          "const": "status"
+        },
+        "phase": {
+          "enum": [
+            "connecting",
+            "listening",
+            "stopping"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "code",
+        "message",
+        "recoverable"
+      ],
+      "properties": {
+        "type": {
+          "const": "error"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recoverable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ended": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "transcript",
+        "analysis_count"
+      ],
+      "properties": {
+        "type": {
+          "const": "ended"
+        },
+        "transcript": {
+          "type": "string"
+        },
+        "analysis_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "analysisControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "enabled"
+      ],
+      "properties": {
+        "type": {
+          "const": "analysis_control"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/chat-topics.schema.json",
+  "title": "Chat topic grouping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_id", "topics"],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "source_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "topics": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "summary", "keywords", "message_indexes"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "keywords": {
+            "type": "array",
+            "maxItems": 8,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            }
+          },
+          "message_indexes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/0.1/profile-autofill.schema.json",
+  "title": "Lingxi Bridge single-person autofill preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "person", "candidates", "skipped_sections"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "relation_to_user"],
+      "properties": {
+        "display_name": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "relation_to_user": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 120
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "label",
+          "value",
+          "quote",
+          "start",
+          "end",
+          "confidence"
+        ],
+        "properties": {
+          "section": {"$ref": "#/$defs/profileSection"},
+          "label": {"type": "string", "minLength": 1, "maxLength": 120},
+          "value": {"type": "string", "minLength": 1, "maxLength": 4000},
+          "quote": {"type": "string", "minLength": 1, "maxLength": 8000},
+          "start": {"type": "integer", "minimum": 0},
+          "end": {"type": "integer", "minimum": 1},
+          "confidence": {"enum": ["low", "medium", "high"]}
+        }
+      }
+    },
+    "skipped_sections": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/profileSection"}
+    }
+  },
+  "$defs": {
+    "profileSection": {
+      "enum": [
+        "basic_info",
+        "appearance_style",
+        "preferences",
+        "habits",
+        "important_experiences",
+        "works_expression",
+        "social_content",
+        "interactions",
+        "user_observations"
+      ]
+    }
+  }
+}

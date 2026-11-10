@@ -1,0 +1,11 @@
+fastapi>=0.116,<1
+httpx[socks]>=0.28,<1
+jsonschema>=4.25,<5
+pydantic>=2.11,<3
+PyYAML>=6.0,<7
+python-multipart>=0.0.20,<1
+uvicorn>=0.35,<1
+websockets>=15,<16
+
+reportlab>=4.4,<5
+markdown-it-py>=3,<5

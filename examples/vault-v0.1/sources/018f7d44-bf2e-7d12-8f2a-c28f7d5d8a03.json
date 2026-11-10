@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "entity_type": "source",
+  "id": "018f7d44-bf2e-7d12-8f2a-c28f7d5d8a03",
+  "revision": 1,
+  "created_at": "2026-07-27T08:05:00Z",
+  "updated_at": "2026-07-27T08:05:00Z",
+  "title": "散步聊天摘录（虚构）",
+  "source_kind": "text",
+  "original_path": "attachments/018f7d44-bf2e-7d12-8f2a-c28f7d5d8a03/original.txt",
+  "sha256": "104f10828ff2b53b91bec7b9b2946c933ae593b6ba3d7ac70d126cd54826abc5",
+  "person_ids": [
+    "018f7d44-bf2e-7d12-8f2a-c28f7d5d8a01"
+  ],
+  "event_ids": [
+    "018f7d44-bf2e-7d12-8f2a-c28f7d5d8a02"
+  ]
+}

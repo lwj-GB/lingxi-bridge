@@ -1,0 +1,1508 @@
+openapi: 3.1.0
+info:
+  title: Lingxi Bridge Local API
+  version: 0.1.0
+paths:
+  /api/health:
+    get:
+      summary: Health
+      operationId: health_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+                title: Response Health Api Health Get
+  /api/executors:
+    get:
+      summary: List Executors
+      operationId: list_executors_api_executors_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Executors Api Executors Get
+  /api/profile-autofill/preview:
+    post:
+      summary: Preview Profile Autofill
+      operationId: preview_profile_autofill_api_profile_autofill_preview_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileAutofillPreviewCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Preview Profile Autofill Api Profile Autofill Preview
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/workspaces/open:
+    post:
+      summary: Open Workspace
+      operationId: open_workspace_api_workspaces_open_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenWorkspaceRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Open Workspace Api Workspaces Open Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/workspaces/current:
+    get:
+      summary: Get Current Workspace
+      operationId: get_current_workspace_api_workspaces_current_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Current Workspace Api Workspaces Current Get
+  /api/workspaces/refresh:
+    post:
+      summary: Refresh Workspace
+      operationId: refresh_workspace_api_workspaces_refresh_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Refresh Workspace Api Workspaces Refresh Post
+  /api/workspaces/rebuild-index:
+    post:
+      summary: Rebuild Index
+      operationId: rebuild_index_api_workspaces_rebuild_index_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Rebuild Index Api Workspaces Rebuild Index Post
+  /api/workspaces/export:
+    get:
+      summary: Export Workspace
+      operationId: export_workspace_api_workspaces_export_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/analysis-templates:
+    get:
+      summary: Get Analysis Templates
+      operationId: get_analysis_templates_api_analysis_templates_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Analysis Templates Api Analysis Templates Get
+    put:
+      summary: Update Analysis Templates
+      operationId: update_analysis_templates_api_analysis_templates_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalysisTemplatesUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Update Analysis Templates Api Analysis Templates Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/people:
+    get:
+      summary: List People
+      operationId: list_people_api_people_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List People Api People Get
+    post:
+      summary: Create Person
+      operationId: create_person_api_people_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Person Api People Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/people/{person_id}:
+    patch:
+      summary: Update Person
+      operationId: update_person_api_people__person_id__patch
+      parameters:
+      - name: person_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Person Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Update Person Api People  Person Id  Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/people/{person_id}/profile-entries:
+    post:
+      summary: Add Profile Entry
+      operationId: add_profile_entry_api_people__person_id__profile_entries_post
+      parameters:
+      - name: person_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Person Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileEntryCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Add Profile Entry Api People  Person Id  Profile Entries
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/events:
+    get:
+      summary: List Events
+      operationId: list_events_api_events_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Events Api Events Get
+    post:
+      summary: Create Event
+      operationId: create_event_api_events_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Event Api Events Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sources:
+    get:
+      summary: List Sources
+      operationId: list_sources_api_sources_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Sources Api Sources Get
+  /api/sources/text:
+    post:
+      summary: Import Text Source
+      operationId: import_text_source_api_sources_text_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextSourceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Import Text Source Api Sources Text Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/screenshot-batches:
+    post:
+      summary: Import Screenshot Batch
+      operationId: import_screenshot_batch_api_screenshot_batches_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_import_screenshot_batch_api_screenshot_batches_post'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Import Screenshot Batch Api Screenshot Batches Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sources/{source_id}/transcript:
+    put:
+      summary: Confirm Screenshot Transcript
+      operationId: confirm_screenshot_transcript_api_sources__source_id__transcript_put
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Source Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenshotTranscriptConfirm'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Confirm Screenshot Transcript Api Sources  Source
+                  Id  Transcript Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sources/{source_id}/original:
+    get:
+      summary: Get Source Original
+      operationId: get_source_original_api_sources__source_id__original_get
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Source Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sources/{source_id}/chat-analysis:
+    post:
+      summary: Analyze Chat Source
+      operationId: analyze_chat_source_api_sources__source_id__chat_analysis_post
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Source Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatAnalysisCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Analyze Chat Source Api Sources  Source Id  Chat Analysis
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/screenshot-recognition-jobs:
+    post:
+      summary: Create Screenshot Recognition Job
+      operationId: create_screenshot_recognition_job_api_screenshot_recognition_jobs_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenshotRecognitionCreate'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Screenshot Recognition Job Api Screenshot Recognition
+                  Jobs Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/screenshot-recognition-jobs/{job_id}:
+    get:
+      summary: Get Screenshot Recognition Job
+      operationId: get_screenshot_recognition_job_api_screenshot_recognition_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Screenshot Recognition Job Api Screenshot Recognition
+                  Jobs  Job Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Cancel Screenshot Recognition Job
+      operationId: cancel_screenshot_recognition_job_api_screenshot_recognition_jobs__job_id__delete
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Cancel Screenshot Recognition Job Api Screenshot Recognition
+                  Jobs  Job Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/evidence:
+    get:
+      summary: List Evidence
+      operationId: list_evidence_api_evidence_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Evidence Api Evidence Get
+    post:
+      summary: Create Evidence
+      operationId: create_evidence_api_evidence_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Evidence Api Evidence Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/reports:
+    get:
+      summary: List Reports
+      operationId: list_reports_api_reports_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Reports Api Reports Get
+    post:
+      summary: Create Report
+      operationId: create_report_api_reports_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Report Api Reports Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/report-advisor/suggestions/{person_id}:
+    get:
+      summary: Report Advisor Suggestions
+      operationId: report_advisor_suggestions_api_report_advisor_suggestions__person_id__get
+      parameters:
+      - name: person_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Person Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Report Advisor Suggestions Api Report Advisor Suggestions  Person
+                  Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/report-advisor/preview:
+    post:
+      summary: Preview Report Advisor
+      operationId: preview_report_advisor_api_report_advisor_preview_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportAdvisorCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Preview Report Advisor Api Report Advisor Preview
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/records/{record_id}:
+    get:
+      summary: Get Record
+      operationId: get_record_api_records__record_id__get
+      parameters:
+      - name: record_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Record Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Record Api Records  Record Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/assistant/answer:
+    post:
+      summary: Answer Question
+      operationId: answer_question_api_assistant_answer_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantQuestion'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Answer Question Api Assistant Answer Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/assistant/people:
+    post:
+      summary: Create Assistant Person
+      operationId: create_assistant_person_api_assistant_people_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantPersonCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Create Assistant Person Api Assistant People Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AnalysisTemplateDefinition:
+      properties:
+        id:
+          type: string
+          maxLength: 80
+          minLength: 3
+          pattern: ^[a-z0-9][a-z0-9_-]*$
+          title: Id
+        name:
+          type: string
+          maxLength: 80
+          minLength: 1
+          title: Name
+        category:
+          type: string
+          enum:
+          - general
+          - romantic
+          - family
+          - education
+          - friendship
+          - workplace
+          - professional_support
+          title: Category
+        description:
+          type: string
+          maxLength: 400
+          minLength: 1
+          title: Description
+        dimensions:
+          items:
+            type: string
+            maxLength: 240
+            minLength: 1
+          type: array
+          maxItems: 12
+          minItems: 1
+          title: Dimensions
+        evidence_requirements:
+          items:
+            type: string
+            maxLength: 240
+            minLength: 1
+          type: array
+          maxItems: 8
+          minItems: 1
+          title: Evidence Requirements
+        forbidden_conclusions:
+          items:
+            type: string
+            maxLength: 240
+            minLength: 1
+          type: array
+          maxItems: 8
+          minItems: 1
+          title: Forbidden Conclusions
+        template_family:
+          type: string
+          enum:
+          - person_long_term
+          - relation
+          - recent_change
+          - special
+          title: Template Family
+        template_variant:
+          type: string
+          enum:
+          - overview
+          - preferences_habits
+          - experiences_values
+          - romantic
+          - family_parent
+          - mentor_collaboration
+          - friend_social
+          - other
+          - recent_state
+          - gift_advice
+          - communication_prep
+          - conflict_review
+          - behavior_interpretation
+          - custom
+          title: Template Variant
+        default_question:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Default Question
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      - dimensions
+      - evidence_requirements
+      - forbidden_conclusions
+      - template_family
+      - template_variant
+      - default_question
+      title: AnalysisTemplateDefinition
+    AnalysisTemplatesUpdate:
+      properties:
+        active_template_id:
+          type: string
+          maxLength: 80
+          minLength: 3
+          title: Active Template Id
+        custom_templates:
+          items:
+            $ref: '#/components/schemas/AnalysisTemplateDefinition'
+          type: array
+          maxItems: 50
+          title: Custom Templates
+        expected_hash:
+          anyOf:
+          - type: string
+            maxLength: 64
+            minLength: 64
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+          title: Expected Hash
+      type: object
+      required:
+      - active_template_id
+      title: AnalysisTemplatesUpdate
+    AssistantPersonCreate:
+      properties:
+        text:
+          type: string
+          maxLength: 2000000
+          minLength: 1
+          title: Text
+        preview:
+          additionalProperties: true
+          type: object
+          title: Preview
+        display_name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Display Name
+        relation_to_user:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Relation To User
+        request_id:
+          type: string
+          format: uuid
+          title: Request Id
+      additionalProperties: false
+      type: object
+      required:
+      - text
+      - preview
+      - display_name
+      - relation_to_user
+      - request_id
+      title: AssistantPersonCreate
+    AssistantQuestion:
+      properties:
+        question:
+          type: string
+          maxLength: 20000
+          minLength: 1
+          title: Question
+        person_id:
+          type: string
+          format: uuid
+          title: Person Id
+        source_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          maxItems: 100
+          title: Source Ids
+        engine:
+          type: string
+          enum:
+          - claude
+          - codex
+          title: Engine
+        profile_id:
+          type: string
+          const: inherited
+          title: Profile Id
+          default: inherited
+      type: object
+      required:
+      - question
+      - person_id
+      - engine
+      title: AssistantQuestion
+    Body_import_screenshot_batch_api_screenshot_batches_post:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        person_ids:
+          type: string
+          title: Person Ids
+        event_ids:
+          type: string
+          title: Event Ids
+          default: '[]'
+        files:
+          items:
+            type: string
+            contentMediaType: application/octet-stream
+          type: array
+          title: Files
+      type: object
+      required:
+      - title
+      - person_ids
+      - files
+      title: Body_import_screenshot_batch_api_screenshot_batches_post
+    ChatAnalysisCreate:
+      properties:
+        engine:
+          type: string
+          enum:
+          - local_demo
+          - claude
+          - codex
+          title: Engine
+          default: local_demo
+        profile_id:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Profile Id
+          default: inherited
+        material_scope_confirmed:
+          type: boolean
+          title: Material Scope Confirmed
+          default: false
+      type: object
+      title: ChatAnalysisCreate
+    EventCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        occurred_at:
+          type: string
+          minLength: 1
+          title: Occurred At
+        person_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          minItems: 1
+          title: Person Ids
+      type: object
+      required:
+      - title
+      - occurred_at
+      - person_ids
+      title: EventCreate
+    EvidenceCreate:
+      properties:
+        source_id:
+          type: string
+          format: uuid
+          title: Source Id
+        quote:
+          type: string
+          minLength: 1
+          title: Quote
+        locator:
+          $ref: '#/components/schemas/EvidenceLocator'
+        evidence_kind:
+          type: string
+          enum:
+          - direct_quote
+          - user_observation
+          - user_statement
+          - third_party_statement
+          title: Evidence Kind
+        reliability:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+          title: Reliability
+        person_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          minItems: 1
+          title: Person Ids
+        event_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Event Ids
+      type: object
+      required:
+      - source_id
+      - quote
+      - locator
+      - evidence_kind
+      - reliability
+      - person_ids
+      title: EvidenceCreate
+    EvidenceLocator:
+      properties:
+        kind:
+          type: string
+          const: text_quote
+          title: Kind
+        start:
+          type: integer
+          minimum: 0.0
+          title: Start
+        end:
+          type: integer
+          minimum: 1.0
+          title: End
+      type: object
+      required:
+      - kind
+      - start
+      - end
+      title: EvidenceLocator
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OpenWorkspaceRequest:
+      properties:
+        path:
+          type: string
+          minLength: 1
+          title: Path
+      type: object
+      required:
+      - path
+      title: OpenWorkspaceRequest
+    PersonCreate:
+      properties:
+        display_name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Display Name
+        relation_to_user:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Relation To User
+      type: object
+      required:
+      - display_name
+      - relation_to_user
+      title: PersonCreate
+    PersonUpdate:
+      properties:
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 120
+            minLength: 1
+          - type: 'null'
+          title: Display Name
+        relation_to_user:
+          anyOf:
+          - type: string
+            maxLength: 120
+            minLength: 1
+          - type: 'null'
+          title: Relation To User
+      type: object
+      title: PersonUpdate
+    ProfileAutofillPreviewCreate:
+      properties:
+        text:
+          type: string
+          maxLength: 2000000
+          minLength: 1
+          title: Text
+        engine:
+          type: string
+          enum:
+          - local_demo
+          - claude
+          - codex
+          title: Engine
+          default: local_demo
+        profile_id:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Profile Id
+          default: inherited
+      type: object
+      required:
+      - text
+      title: ProfileAutofillPreviewCreate
+    ProfileEntryCreate:
+      properties:
+        section:
+          type: string
+          enum:
+          - basic_info
+          - appearance_style
+          - preferences
+          - habits
+          - important_experiences
+          - works_expression
+          - social_content
+          - interactions
+          - user_observations
+          title: Section
+        label:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Label
+        value:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Value
+        evidence_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Evidence Ids
+        origin:
+          type: string
+          enum:
+          - user
+          - ai
+          title: Origin
+          default: user
+        confirmation_status:
+          type: string
+          enum:
+          - candidate
+          - confirmed
+          - rejected
+          title: Confirmation Status
+          default: confirmed
+      type: object
+      required:
+      - section
+      - label
+      - value
+      title: ProfileEntryCreate
+    ReportAdvisorCreate:
+      properties:
+        person_id:
+          type: string
+          format: uuid
+          title: Person Id
+        request_text:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Request Text
+        evidence_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Evidence Ids
+        template_family:
+          anyOf:
+          - type: string
+            enum:
+            - person_long_term
+            - relation
+            - recent_change
+            - special
+          - type: 'null'
+          title: Template Family
+        template_variant:
+          anyOf:
+          - type: string
+            enum:
+            - overview
+            - preferences_habits
+            - experiences_values
+            - romantic
+            - family_parent
+            - mentor_collaboration
+            - friend_social
+            - other
+            - recent_state
+            - gift_advice
+            - communication_prep
+            - conflict_review
+            - behavior_interpretation
+            - custom
+          - type: 'null'
+          title: Template Variant
+      type: object
+      required:
+      - person_id
+      - request_text
+      title: ReportAdvisorCreate
+    ReportCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        template_family:
+          type: string
+          enum:
+          - person_long_term
+          - relation
+          - recent_change
+          - special
+          title: Template Family
+        template_variant:
+          anyOf:
+          - type: string
+            enum:
+            - overview
+            - preferences_habits
+            - experiences_values
+            - romantic
+            - family_parent
+            - mentor_collaboration
+            - friend_social
+            - other
+            - recent_state
+            - gift_advice
+            - communication_prep
+            - conflict_review
+            - behavior_interpretation
+            - custom
+          - type: 'null'
+          title: Template Variant
+        analysis_question:
+          anyOf:
+          - type: string
+            maxLength: 4000
+            minLength: 1
+          - type: 'null'
+          title: Analysis Question
+        person_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          minItems: 1
+          title: Person Ids
+        evidence_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          minItems: 1
+          title: Evidence Ids
+        engine:
+          anyOf:
+          - type: string
+            enum:
+            - safe_placeholder
+            - claude
+            - codex
+          - type: 'null'
+          title: Engine
+        profile_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile Id
+      type: object
+      required:
+      - title
+      - template_family
+      - person_ids
+      - evidence_ids
+      title: ReportCreate
+    ScreenshotRecognitionCreate:
+      properties:
+        source_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Source Ids
+        engine:
+          type: string
+          enum:
+          - claude
+          - codex
+          title: Engine
+        profile_id:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Profile Id
+          default: inherited
+      type: object
+      required:
+      - source_ids
+      - engine
+      title: ScreenshotRecognitionCreate
+    ScreenshotSegmentConfirm:
+      properties:
+        order:
+          type: integer
+          minimum: 0.0
+          title: Order
+        speaker:
+          type: string
+          enum:
+          - me
+          - other
+          - unknown
+          title: Speaker
+        text:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Text
+        uncertainty:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+          title: Uncertainty
+      type: object
+      required:
+      - order
+      - speaker
+      - text
+      - uncertainty
+      title: ScreenshotSegmentConfirm
+    ScreenshotTranscriptConfirm:
+      properties:
+        segments:
+          items:
+            $ref: '#/components/schemas/ScreenshotSegmentConfirm'
+          type: array
+          maxItems: 200
+          minItems: 1
+          title: Segments
+      type: object
+      required:
+      - segments
+      title: ScreenshotTranscriptConfirm
+    TextSourceCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        text:
+          type: string
+          title: Text
+        source_kind:
+          type: string
+          enum:
+          - text
+          - markdown
+          - chat_export
+          - user_observation
+          title: Source Kind
+        person_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          minItems: 1
+          title: Person Ids
+        event_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Event Ids
+      type: object
+      required:
+      - title
+      - text
+      - source_kind
+      - person_ids
+      title: TextSourceCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

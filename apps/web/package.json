@@ -1,0 +1,36 @@
+{
+  "name": "@lingxi/web",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run typecheck && vite build",
+    "generate:live-contract": "json2ts --input ../../packages/schemas/live-session.schema.json --output src/live-session.generated.ts --cwd ../../packages/schemas --bannerComment '/* Generated from packages/schemas/live-session.schema.json. Do not edit. */'",
+    "generate:live-validator": "node scripts/generate-live-validator.mjs",
+    "typecheck": "npm run generate:live-contract && npm run generate:live-validator && tsc --noEmit --pretty false && tsc --noEmit --pretty false -p tsconfig.node.json",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
+    "ajv": "^8.20.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-markdown": "10.1.0",
+    "remark-gfm": "4.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^26.1.0",
+    "json-schema-to-typescript": "^15.0.4",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.7",
+    "vitest": "^3.2.4"
+  }
+}

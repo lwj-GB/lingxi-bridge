@@ -1,0 +1,30 @@
+{
+  "name": "lingxi-bridge",
+  "version": "0.2.2",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:server": ".venv/bin/uvicorn lingxi.main:app --app-dir apps/server --host 127.0.0.1 --port 8765 --reload",
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:desktop": "npm --prefix apps/desktop run dev",
+    "test:contracts": ".venv/bin/pytest tests/contracts",
+    "test:server": ".venv/bin/pytest apps/server/tests",
+    "test:acceptance": ".venv/bin/pytest tests/acceptance",
+    "test:web": "npm --workspace apps/web test -- --run",
+    "test": "npm run test:contracts && npm run test:server && npm run test:acceptance && npm run test:web",
+    "build": "npm --workspace apps/web run build",
+    "check:desktop": "npm --prefix apps/desktop run check",
+    "build:desktop": "node scripts/build-desktop.mjs",
+    "validate:realtime": ".venv/bin/python scripts/validate_realtime_audio.py demo",
+    "validate:vault": ".venv/bin/python scripts/validate_vault.py --vault examples/vault-template"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "overrides": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}

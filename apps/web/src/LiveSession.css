@@ -1,0 +1,73 @@
+.live-session .live-output {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.live-session .live-analysis {
+  min-height: 0;
+}
+
+.live-session .live-destination {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.live-session details > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.live-session .live-advice-details[open] > summary,
+.live-session .live-association-details[open] > summary {
+  margin-bottom: 12px;
+}
+
+.live-session .live-technical-details strong {
+  display: block;
+  margin-top: 4px;
+}
+
+.live-session .live-save-location {
+  align-self: center;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.live-session--split .live-output {
+  display: block;
+}
+
+.live-session--split .live-controls {
+  padding: 12px;
+  gap: 10px;
+}
+
+.live-session--split .live-controls .form-row {
+  grid-template-columns: 1fr;
+}
+
+.wb-live-analysis .live-analysis {
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 14px;
+}
+
+.wb-live-analysis details > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.wb-live-analysis .live-save-location {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+
+.wb-live-analysis .live-review {
+  border-radius: 0;
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lingxi.local/schemas/event-analysis.schema.json",
+  "title": "Source-grounded candidate event timeline",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "summary", "nodes"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 5000},
+    "nodes": {
+      "type": "array", "maxItems": 40,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["label", "source_id", "quote", "quote_start", "quote_end"],
+        "properties": {
+          "label": {"type": "string", "minLength": 1, "maxLength": 100},
+          "source_id": {"type": "string", "format": "uuid"},
+          "quote": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "quote_start": {"type": "integer", "minimum": 0},
+          "quote_end": {"type": "integer", "minimum": 1},
+          "timestamp_ms": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

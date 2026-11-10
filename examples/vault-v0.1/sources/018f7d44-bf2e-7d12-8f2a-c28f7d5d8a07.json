@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1",
+  "entity_type": "source",
+  "id": "018f7d44-bf2e-7d12-8f2a-c28f7d5d8a07",
+  "revision": 1,
+  "created_at": "2026-07-27T14:30:00Z",
+  "updated_at": "2026-07-27T14:30:00Z",
+  "title": "周末出行聊天记录（虚构）",
+  "source_kind": "chat_export",
+  "original_path": "attachments/018f7d44-bf2e-7d12-8f2a-c28f7d5d8a07/original.txt",
+  "sha256": "c99050d49a72bb074b3b5a5d153c8378a6ad9df7f8214c41a16655be9e75a026",
+  "person_ids": [
+    "018f7d44-bf2e-7d12-8f2a-c28f7d5d8a01"
+  ],
+  "event_ids": []
+}

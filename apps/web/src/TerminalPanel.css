@@ -1,0 +1,7 @@
+.terminal-panel{display:flex;flex-direction:column;height:100%;min-height:260px;color:var(--ink);background:var(--paper)}
+.terminal-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:7px;border-bottom:1px solid var(--line);font-size:11px}
+.terminal-toolbar select,.terminal-toolbar button{padding:3px 6px;font-size:11px;border:1px solid var(--line);border-radius:2px;background:var(--paper-warm);color:var(--ink)}
+.terminal-toolbar span{margin-left:auto;color:var(--muted)}
+.terminal-cwd{font:10px/1.5 monospace;color:var(--muted);overflow-wrap:anywhere;padding:5px 9px;border-bottom:1px solid var(--line)}
+.terminal-viewport{flex:1;min-height:180px;padding:5px 7px;overflow:hidden}
+.terminal-permissions{padding:5px 9px;font-size:10px;color:var(--muted);border-top:1px solid var(--line)}

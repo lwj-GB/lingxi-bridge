@@ -1,0 +1,4 @@
+# Optional offline desktop ASR; ffmpeg must also be on PATH.
+# Model weights are installed separately into the user's cache.
+sherpa-onnx==1.13.3
+numpy>=1.26,<3

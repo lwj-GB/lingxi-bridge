@@ -1,0 +1,18 @@
+.ai-workspace { width: min(100%, 850px); margin: 0 auto; padding: 24px 0; }
+.ai-command-form { display: grid; gap: 20px; }
+.ai-task-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ai-task-controls button, .ai-task-controls select { padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); }
+.ai-task-controls button[aria-pressed="true"] { background: var(--paper-warm); border-color: var(--clay); }
+.ai-task-controls select { margin-left: auto; }
+.ai-command-form textarea { width: 100%; min-height: 160px; resize: vertical; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: var(--ink); font: inherit; line-height: 1.8; }
+.ai-command-form textarea:focus { outline: 2px solid var(--clay); outline-offset: 2px; }
+.ai-command-form footer { display: flex; justify-content: space-between; align-items: start; gap: 18px; }
+.ai-materials { color: var(--muted); font-size: 12px; }
+.ai-materials summary { cursor: pointer; padding: 8px 0; }
+.ai-materials label { display: flex; gap: 8px; padding: 5px 0; }
+.ai-answer { margin-top: 32px; border-top: 1px solid var(--line); padding: 20px 0; line-height: 1.9; }
+.ai-answer p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ai-person-draft { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px; line-height: 1.8; }
+.ai-person-draft input { display: block; padding: 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: var(--ink); }
+.ai-error { color: var(--clay-dark); }
+@media(max-width:620px) { .ai-task-controls select { margin-left: 0; width: 100%; } }

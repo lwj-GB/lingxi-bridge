@@ -1,0 +1,172 @@
+:root[data-color-theme] {
+  font-family: var(--ui-font);
+  font-size: var(--ui-font-size);
+  color: var(--ink);
+  background: var(--paper-warm);
+}
+
+:root[data-color-theme] body {
+  font-family: var(--ui-font);
+  font-size: var(--ui-font-size);
+  color: var(--ink);
+  background: var(--paper-warm);
+}
+
+:root[data-color-theme] :is(h1, h2, h3, h4, .brand strong, .brand-mark, .step-dot, .overline, .preference-icon, .model-logo, .connection-logo) {
+  font-family: var(--ui-font);
+  letter-spacing: normal;
+}
+
+:root[data-color-theme] :is(button, input, select, textarea) {
+  font-family: var(--ui-font);
+  border-radius: 2px;
+}
+
+:root[data-color-theme] :is(input, select, textarea, .preference-card label) {
+  font-size: calc(var(--ui-font-size) - 1px);
+}
+
+:root[data-color-theme] :is(.primary-button, .secondary-button, .segmented-control button, .settings-tabs button, .accent-option, .settings-inline-action) {
+  font-size: calc(var(--ui-font-size) - 2px);
+}
+
+:root[data-color-theme] :is(.card, .section-card, .person-card, .source-card, .evidence-card, .report-card, .preference-card, .connection-card, .model-role-card, .integration-card, .usage-card, .export-card, .data-governance, .workspace-chip, .workspace-picker, .opened-workspace, .person-empty, .new-contact-panel, .autofill-preview, .screenshot-card, .report-reader-empty, .help-launch-card, .onboarding-dialog, .onboarding-visual, .onboarding-data-note, .toolbar-more > div) {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+:root[data-color-theme] :is(.main-column, .left-rail, .right-inspector, .desktop-toolbar, .onboarding-progress, .model-role-card, .connection-card, .help-launch-card, .scenario-intro, .data-governance) {
+  background: var(--paper-warm);
+  box-shadow: none;
+}
+
+:root[data-color-theme] .desktop-toolbar {
+  border-radius: 0;
+  border-color: var(--line);
+  backdrop-filter: none;
+}
+
+:root[data-color-theme] :is(.section-card, .preference-card, .connection-card, .model-role-card) {
+  border-color: var(--line);
+  border-width: 1px;
+  background: var(--paper);
+}
+
+:root[data-color-theme] .left-rail nav button {
+  color: var(--muted);
+}
+
+:root[data-color-theme] .left-rail nav button:is(:hover, .is-active) {
+  color: var(--clay-dark);
+  background: var(--paper);
+}
+
+:root[data-color-theme] :is(.brand-mark, .workspace-switch, .model-pill, .toolbar-tools button, .segmented-control, .segmented-control button, .settings-tabs button, .left-rail nav button, .person-tabs button, .tag-filter button, .prompt-chips button, .onboarding-progress nav button, .onboarding-close) {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+:root[data-color-theme] .report-paragraph {
+  font-size: calc(var(--ui-font-size) + 2px);
+}
+
+.color-theme-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.color-theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  text-align: left;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.color-theme-option[aria-pressed="true"] {
+  border-color: var(--clay-dark);
+  background: var(--rose-soft);
+}
+
+.color-theme-swatch {
+  width: 20px;
+  height: 16px;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.typography-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.typography-controls label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.typography-controls select {
+  min-width: 120px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@media (max-width: 620px) {
+  .appearance-controls,
+  .typography-controls {
+    width: 100%;
+    justify-items: stretch;
+    justify-content: stretch;
+  }
+
+  .typography-controls label {
+    flex: 1;
+  }
+
+  .color-theme-picker {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Business surfaces share the active theme; color names below are legacy tokens. */
+:root[data-color-theme] :is(.secondary-button, .candidate-card, .executor-card, .path-row code) {
+  background: var(--paper);
+  border-color: var(--line);
+}
+:root[data-color-theme] :is(.included-evidence, .candidate-card.is-accepted, .executor-card.available, .inspector-content > blockquote) {
+  background: var(--blue-soft);
+  border-color: var(--line);
+}
+:root[data-color-theme] :is(.included-evidence summary, .calibrated-summary, .available .status-text) {
+  color: var(--clay-dark);
+}
+:root[data-color-theme] :is(.source-body, .path-row code, .inspector-content > blockquote, .candidate-review > header h3) {
+  color: var(--ink);
+}
+:root[data-color-theme] :is(.included-evidence li, .executor-card dl div) { border-color: var(--line); }
+:root[data-color-theme] .source-body mark { background: color-mix(in srgb, var(--clay-dark) 24%, var(--paper)); }
+:root[data-color-theme] .primary-button { box-shadow: none; }
+:root[data-color-theme] .primary-button:hover:not(:disabled) { background: var(--clay); filter: brightness(.94); }
+:root[data-color-theme] .terminal-icon { background: var(--paper-warm); color: var(--clay-dark); }
+:root[data-color-theme] .help-launch-card { background: var(--clay); }
+:root[data-color-theme] .appearance-controls {
+  width: min(100%, 480px);
+  min-width: 0;
+  flex: 1;
+  justify-items: stretch;
+}
+:root[data-color-theme] .appearance-controls > :is(.segmented-control, .accent-picker) { justify-self: end; }
+:root[data-color-theme] .settings-group { border-radius: 2px; }
