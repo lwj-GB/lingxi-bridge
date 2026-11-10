@@ -2,7 +2,7 @@
 
 配合文鱼使用的桌面资料工作台。把手机记录按天归档到电脑，集中阅读原话、整理人物和事件、查看报告，也可以回到原文核对。
 
-[下载 macOS 版](https://github.com/lwj-GB/lingxi-bridge/releases/latest) · [手机版](https://github.com/lwj-GB/wenyu-android) · [使用说明](docs/使用指南.md) · [问题反馈](https://github.com/lwj-GB/lingxi-bridge/issues)
+[下载 macOS 版](https://github.com/lwj-GB/lingxi-bridge/releases/tag/v0.2.2) · [手机版](https://github.com/lwj-GB/wenyu-android) · [使用说明](docs/使用指南.md) · [问题反馈](https://github.com/lwj-GB/lingxi-bridge/issues)
 
 - 按日期查看手机归档的记录、笔记和待办。
 - 管理人物、事件和相关资料，保留报告历史及原句依据。
